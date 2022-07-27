@@ -46,7 +46,7 @@
     "lint:fix:sol": "prettier --write 'contracts/**/*.sol' && solhint 'contracts/**/*.sol' --fix",
     "build": "hardhat compile",
     "test": "hardhat test",
-    "deploy": "hardhat deploy",
+    "deploy": "hardhat run scripts/deploy.ts",
     "prepare": "npm run build"
   }
 }
