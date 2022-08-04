@@ -29,7 +29,7 @@ const config: HardhatUserConfig = {
     cache: "./build/cache",
   },
   solidity: "0.8.4",
-  defaultNetwork: "hardhat",
+  defaultNetwork: "godwoken",
   networks: {
     hardhat: {},
     godwoken: {
