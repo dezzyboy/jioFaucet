@@ -24,5 +24,5 @@ npm run test
 ```
 ### GodwokenV1_testnet
 
-###Deployed Faucet contract :
+### Deployed Faucet contract :
 ```0x9b267A59bB8aCBA03a1F8908B6Bb6709EDF95EF8```
