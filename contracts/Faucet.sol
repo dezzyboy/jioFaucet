@@ -15,7 +15,7 @@ contract JioFaucet is Ownable, Pausable, ReentrancyGuard {
     address public usdcToken;
     address public daiToken;
 
-    uint256 public constant TOTAL_MAX_AMOUNT = 10000000000000000000000;
+    uint256 public totalMaxAmount = 10000000000000000000000;
     uint256 public constant DAILY_MAX_AMOUNT = 1000000000000000000000;
 
     uint256 public maxAmountToRequest = 100000000000000000000; //default is 100ERC20 tokens
@@ -55,6 +55,12 @@ contract JioFaucet is Ownable, Pausable, ReentrancyGuard {
     {
         maxAmountToRequest = _maxAmountToRequest;
     }
+    function setTotalMaxAmount(uint256 _totalMaxAmount)
+        external
+        onlyOwner
+    {
+        totalMaxAmount = _totalMaxAmount;
+    }
 
     function requestDaiToken(uint256 amount)
         external
@@ -66,7 +72,7 @@ contract JioFaucet is Ownable, Pausable, ReentrancyGuard {
         User storage user = userMap[msg.sender];
         user.totalAmount += amount;
         require(
-            user.totalAmount <= TOTAL_MAX_AMOUNT,
+            user.totalAmount <= totalMaxAmount,
             "request exceeds max total"
         );
         require(amount <= maxAmountToRequest, "Sorry : max amount is 100");
@@ -94,7 +100,7 @@ contract JioFaucet is Ownable, Pausable, ReentrancyGuard {
         User storage user = userMap[msg.sender];
         user.totalAmount += amount;
         require(
-            user.totalAmount <= TOTAL_MAX_AMOUNT,
+            user.totalAmount <= totalMaxAmount,
             "request exceeds max total"
         );
         require(amount <= maxAmountToRequest, "Sorry : max amount is 100");
@@ -122,7 +128,7 @@ contract JioFaucet is Ownable, Pausable, ReentrancyGuard {
         User storage user = userMap[msg.sender];
         user.totalAmount += amount;
         require(
-            user.totalAmount <= TOTAL_MAX_AMOUNT,
+            user.totalAmount <= totalMaxAmount,
             "request exceeds max total"
         );
         require(amount <= maxAmountToRequest, "Sorry : max amount is 100");
