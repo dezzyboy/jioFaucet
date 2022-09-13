@@ -37,6 +37,18 @@ const config: HardhatUserConfig = {
       chainId: 71401,
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
+    dogechain: {
+      url: `https://rpc-testnet.dogechain.dog`,
+      chainId: 568,
+      accounts: [`${process.env.PRIVATE_KEY}`],
+    },
+    thundercore: {
+      url: `https://testnet-rpc.thundercore.com`,
+      chainId: 18,
+      gas: 90000000,
+      gasPrice: 1e9,
+      accounts: [`${process.env.PRIVATE_KEY}`],
+    },
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
       accounts:

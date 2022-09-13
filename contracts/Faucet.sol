@@ -14,6 +14,7 @@ contract JioFaucet is Ownable, Pausable, ReentrancyGuard {
     address public usdtToken;
     address public usdcToken;
     address public daiToken;
+    address public busdToken;
 
     uint256 public constant TOTAL_MAX_AMOUNT = 10000000000000000000000;
     uint256 public constant DAILY_MAX_AMOUNT = 1000000000000000000000;
@@ -47,6 +48,9 @@ contract JioFaucet is Ownable, Pausable, ReentrancyGuard {
 
     function setDaiToken(address _daiToken) external onlyOwner {
         daiToken = _daiToken;
+    }
+    function setBusdToken(address _busdToken) external onlyOwner {
+        busdToken = _busdToken;
     }
 
     function setMaxAmountToRequest(uint256 _maxAmountToRequest)
@@ -139,4 +143,32 @@ contract JioFaucet is Ownable, Pausable, ReentrancyGuard {
         IERC20(usdcToken).transfer(msg.sender, amount);
         emit TokenSent(amount);
     }
+    function requestBusdToken(uint256 amount)
+        external
+        payable
+        virtual
+        nonReentrant
+        whenNotPaused
+    {
+        User storage user = userMap[msg.sender];
+        user.totalAmount += amount;
+        require(
+            user.totalAmount <= TOTAL_MAX_AMOUNT,
+            "request exceeds max total"
+        );
+        require(amount <= maxAmountToRequest, "Sorry : max amount is 100");
+        user.dailyAmount = (block.timestamp / DAY - user.lastTxTime / DAY >= 1)
+            ? amount
+            : user.dailyAmount + amount;
+        require(
+            user.dailyAmount <= DAILY_MAX_AMOUNT,
+            "request exceed daily max amount"
+        );
+
+        user.lastTxTime = block.timestamp;
+
+        IERC20(busdToken).transfer(msg.sender, amount);
+        emit TokenSent(amount);
+    }
+
 }
